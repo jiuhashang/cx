@@ -12,14 +12,15 @@ export default {
   data() {
     return {
       myChart: null,
-      time: [],
-      power: []
+      hour: [],
+      amountIn: [], // 发电量
+      amountOut: [] // 用电量
     }
   },
   mounted () {
     this.initChart()
-    // this.getList()
-    // this.startInterval()
+    this.getData()
+    this.startInterval()
   },
   beforeDestroy() {
     clearInterval(this.timer)
@@ -47,7 +48,6 @@ export default {
         xAxis: [
           {
             type: 'category',
-            data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
             axisPointer: {
               type: 'shadow'
             },
@@ -62,14 +62,14 @@ export default {
         yAxis: [
           {
             type: 'value',
-            min: 0,
-            max: 250,
-            interval: 50,
+            // min: 0,
+            // max: 250,
+            // interval: 50,
             axisLabel: {
               formatter: '{value}'
             },
             splitLine: {
-              show: true,
+              show: false,
               lineStyle: {
                 color: 'rgba(255, 255, 255, 0.05)',
                 // width: 1,
@@ -79,14 +79,14 @@ export default {
           },
           {
             type: 'value',
-            min: 0,
-            max: 25,
-            interval: 5,
+            // min: 0,
+            // max: 25,
+            // interval: 5,
             axisLabel: {
               formatter: '{value}'
             },
             splitLine: {
-              show: true,
+              show: false,
               lineStyle: {
                 color: 'rgba(255, 255, 255, 0.05)',
                 // width: 1,
@@ -97,7 +97,7 @@ export default {
         ],
         series: [
           {
-            name: 'Evaporation',
+            name: '实时发电量',
             type: 'bar',
             barWidth: '30%',
             itemStyle: {
@@ -114,15 +114,12 @@ export default {
             },
             tooltip: {
               valueFormatter: function (value) {
-                return value + ' ml';
+                return value
               }
-            },
-            data: [
-              2.0, 4.9, 7.0, 23.2, 25.6, 76.7, 135.6, 162.2, 32.6, 20.0, 6.4, 3.3
-            ]
+            }
           },
           {
-            name: 'Temperature',
+            name: '实时用电量',
             type: 'line',
             smooth: true,
             lineStyle: {
@@ -133,45 +130,48 @@ export default {
             yAxisIndex: 1,
             tooltip: {
               valueFormatter: function (value) {
-                return value + ' °C';
+                return value
               }
-            },
-            data: [2.0, 2.2, 3.3, 4.5, 6.3, 10.2, 20.3, 23.4, 23.0, 16.5, 12.0, 6.2]
+            }
           }
         ]
       }
       
       option && this.myChart.setOption(option)
     },
-    // getList() {
-    //   axios.post('/cdz/getChargeCount').then(result => {
-    //     const res = result.data.data
-    //     this.time = res.map(item => item.hour + '点').reverse()
-    //     this.power = res.map(item => item.electric).reverse()
-    //     this.updateChart()
-    //   })
-    // },
-    // updateChart() {
-    //   var option = {
-    //     xAxis: {
-    //       data: this.time
-    //     },
-    //     series: [
-    //       {
-    //         data: this.power
-    //       }
-    //     ]
-    //   }
-    //   this.myChart.setOption(option)
-    // },
-    // startInterval() {
-    //   if(this.timer) {
-    //     clearInterval(this.timer)
-    //   }
-    //   this.timer = setInterval(() => {
-    //     this.getList()
-    //   }, 15*60*1000)
-    // }
+    getData() {
+      axios.get('/cx/cxGfDateElectricIn/getTodayAllAmount').then(result => {
+        const res = result.data.data
+        this.hour = res.map(item => item.hour)
+        this.amountIn = res.map(item => item.amountIn)
+        this.amountOut = res.map(item => item.amountOut)
+        this.updateChart()
+      })
+    },
+    updateChart() {
+      var option = {
+        xAxis: {
+          data: this.hour
+        },
+        series: [
+          {
+            data: this.amountIn
+          },
+          {
+            data: this.amountOut
+          }
+        ]
+      }
+      this.myChart.setOption(option)
+    },
+    startInterval() {
+      if(this.timer) {
+        clearInterval(this.timer)
+      }
+      this.timer = setInterval(() => {
+        this.getData()
+      }, 15*60*1000)
+    }
   }
 }
 </script>

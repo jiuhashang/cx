@@ -137,7 +137,7 @@ export default {
       }
       this.timer = setInterval(() => {
         this.getData()
-      }, 15*60*1000)
+      }, 5*60*1000)
     }
   }
 }

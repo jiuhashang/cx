@@ -1,6 +1,6 @@
 // const port = process.env.port || 80 // dev port
 module.exports = {
-  // publicPath: '/cx/',
+  publicPath: '/cx/',
   lintOnSave: false,
   productionSourceMap: false,
   // devServer: {
