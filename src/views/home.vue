@@ -308,7 +308,7 @@ export default {
           .b4 {
             position: absolute;
             top: 720px;
-            left: 1088px;
+            left: 1100px;
           }
           .b5 {
             width: 90px;
