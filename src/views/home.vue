@@ -110,13 +110,14 @@ export default {
       sscy: 0
     }
   },
-  mounted() {
+  created() {
     if (this.timer) {
       clearInterval(this.timer)
     }
     this.timer = setInterval(() => {
       this.date = new Date()
     }, 1000)
+    this.startInterval()
     this.getData()
   },
   methods: {
@@ -165,6 +166,14 @@ export default {
       var minutes=date.getMinutes() < 10 ? "0" + date.getMinutes() : date.getMinutes()
       var seconds=date.getSeconds() < 10 ? "0" + date.getSeconds() : date.getSeconds()
       return year + "-" + month + "-" + day + " " + hours + ":" + minutes + ":" + seconds
+    },
+    startInterval() {
+      if(this.timeData) {
+        clearInterval(this.timeData)
+      }
+      this.timeData = setInterval(() => {
+        this.getData()
+      }, 5 * 60 * 1000)
     }
   },
   computed: {
@@ -177,6 +186,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.timer)
+    clearInterval(this.timeData)
   }
 }
 </script>

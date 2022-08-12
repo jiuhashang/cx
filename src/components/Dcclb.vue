@@ -31,6 +31,12 @@ export default {
         color: ['#80FFA5'],
         tooltip: {
           trigger: 'axis',
+          // formatter: arg => {
+          //   // console.log(arg)
+          //   let str = ''
+          //     str = arg[0].name + '<br/>' + arg[0].seriesName + '：' + arg[0].value
+          //   return str
+          // },
           axisPointer: {
             type: 'cross',
             label: {
@@ -57,7 +63,8 @@ export default {
             },
             axisLabel: {
               fontSize: 10
-            }
+            },
+            minInterval: 10,
           }
         ],
         yAxis: [
@@ -85,7 +92,7 @@ export default {
             },
             showSymbol: false,
             label: {
-              show: true,
+              show: false,
               position: 'top'
             },
             areaStyle: {
@@ -111,15 +118,21 @@ export default {
       option && this.myChart.setOption(option)
     },
     async getData() {
-      const res = await this.$http.get('/cx/cxLdDateElectricIn/getTodayAllAmount')
-      this.time = res.data.data.map(item => item.hour)
-      this.value = res.data.data.map(item => item.amount)
+      // const res = await this.$http.get('/cx/cxLdPowerNow/getTodayAllAmount')
+      // this.time = res.data.data.map(item => item.time)
+      // console.log(this.time);
+      // this.time = Object.keys(res.data.data).map(item => parseInt(item))
+      
+      // this.value = Object.values(res.data.data)
+      // console.log(res.data.data);
+      // this.value = res.data.data.map(item => item.power)
       this.updateChart()
     },
     updateChart() {
       var option = {
         xAxis: {
-          data: this.time
+          // data: this.time
+          data: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
         },
         series: [
           {

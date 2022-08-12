@@ -13,7 +13,8 @@ export default {
     return {
       myChart: null,
       time: [],
-      value: []
+      value1: [],
+      value2: []
     }
   },
   mounted () {
@@ -50,7 +51,7 @@ export default {
             type: 'category',
             boundaryGap: false,
             axisLine: {
-              show: false
+              show: false,
             },
             axisTick: {
               show: false
@@ -64,13 +65,13 @@ export default {
           {
             type: 'value',
             splitLine: {
-            show: true,
-            lineStyle: {
-              color: 'rgba(255, 255, 255, 0.05)',
-              // width: 1,
-              // type: 'solid'
+              show: true,
+              lineStyle: {
+                color: 'rgba(255, 255, 255, 0.05)',
+                // width: 1,
+                // type: 'solid'
+              }
             }
-          }
           }
         ],
         series: [
@@ -85,7 +86,7 @@ export default {
             },
             showSymbol: false,
             label: {
-              show: true,
+              show: false,
               position: 'top'
             },
             areaStyle: {
@@ -110,13 +111,15 @@ export default {
       
       option && this.myChart.setOption(option)
     },
-    getData() {
-      this.$http.get('/cx/cxLdDateElectricOut/getTodayAllAmount').then(result => {
-        const res = result.data.data
-        this.time = res.map(item => item.hour)
-        this.value = res.map(item => item.amount)
-        this.updateChart()
-      })
+    async getData() {
+      const result1 = await this.$http.get('/cx/cxLdDateElectricIn/getTodayAllAmount')
+      const result2 = await this.$http.get('/cx/cxLdDateElectricOut/getTodayAllAmount')
+      const res1 = result1.data.data
+      this.value1 = res1.map(item => item.amount)
+      const res2 = result2.data.data
+      this.time = res2.map(item => item.hour)
+      this.value2 = res2.map(item => item.amount)
+      this.updateChart()
     },
     updateChart() {
       var option = {
@@ -138,6 +141,19 @@ export default {
       this.timer = setInterval(() => {
         this.getData()
       }, 5*60*1000)
+    }
+  },
+  computed: {
+    value() {
+      let value = []
+      for(let i = 0; i < this.value1.length; i++) {
+        if(this.value1[i] === null) {
+          value.push(null)
+        } else {
+          value.push(this.value2[i] - this.value1[i])
+        }
+      }
+      return value
     }
   }
 }

@@ -85,7 +85,7 @@ export default {
             },
             showSymbol: false,
             label: {
-              show: true,
+              show: false,
               position: 'top'
             },
             areaStyle: {
