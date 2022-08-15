@@ -13,8 +13,8 @@ export default {
     return {
       myChart: null,
       time: [],
-      value1: [],
-      value2: []
+      amountOut: [], // 放电
+      amountIn: [] // 充电
     }
   },
   mounted () {
@@ -29,15 +29,15 @@ export default {
     initChart() {
       this.myChart = echarts.init(this.$refs.dcclb_ref)
       var option = {
-        color: ['#80FFA5'],
+        color: ['#B4F494', '#AB70C8'],
         tooltip: {
           trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          }
+          // axisPointer: {
+          //   type: 'cross',
+          //   label: {
+          //     backgroundColor: '#6a7985'
+          //   }
+          // }
         },
         grid: {
           top: '4%',
@@ -51,7 +51,7 @@ export default {
             type: 'category',
             boundaryGap: false,
             axisLine: {
-              show: false,
+              show: true,
             },
             axisTick: {
               show: false
@@ -76,19 +76,40 @@ export default {
         ],
         series: [
           {
-            name: '电量',
+            name: '日放电量',
             type: 'line',
-            stack: 'Total',
+            smooth: true,
+            lineStyle: {
+              width: 1,
+              color: 'rgb(180, 244, 148)'
+            },
+            showSymbol: false,
+            areaStyle: {
+              opacity: 0.8,
+              color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
+                {
+                  offset: 0,
+                  color: 'rgba(180, 244, 148, 0.4)'
+                },
+                {
+                  offset: 1,
+                  color: 'rgba(180, 244, 148, 0.01)'
+                }
+              ])
+            },
+            emphasis: {
+              focus: 'series'
+            }
+          },
+          {
+            name: '日充电量',
+            type: 'line',
             smooth: true,
             lineStyle: {
               width: 1,
               color: 'rgb(171, 112, 200)'
             },
             showSymbol: false,
-            label: {
-              show: false,
-              position: 'top'
-            },
             areaStyle: {
               opacity: 0.8,
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -105,20 +126,18 @@ export default {
             emphasis: {
               focus: 'series'
             }
-          }
+          },
         ]
       }
       
       option && this.myChart.setOption(option)
     },
     async getData() {
-      const result1 = await this.$http.get('/cx/cxLdDateElectricIn/getTodayAllAmount')
-      const result2 = await this.$http.get('/cx/cxLdDateElectricOut/getTodayAllAmount')
-      const res1 = result1.data.data
-      this.value1 = res1.map(item => item.amount)
-      const res2 = result2.data.data
-      this.time = res2.map(item => item.hour)
-      this.value2 = res2.map(item => item.amount)
+      const result = await this.$http.get('/cx/cxLdDateElectricIn/getThisMonthAllDayAmount')
+      const res = result.data.data
+      this.time = res.map(item => item.day)
+      this.amountOut = res.map(item => item.amountOut)
+      this.amountIn = res.map(item => item.amountIn)
       this.updateChart()
     },
     updateChart() {
@@ -128,7 +147,10 @@ export default {
         },
         series: [
           {
-            data: this.value
+            data: this.amountOut
+          },
+          {
+            data: this.amountIn
           }
         ]
       }
@@ -141,19 +163,6 @@ export default {
       this.timer = setInterval(() => {
         this.getData()
       }, 5*60*1000)
-    }
-  },
-  computed: {
-    value() {
-      let value = []
-      for(let i = 0; i < this.value1.length; i++) {
-        if(this.value1[i] === null) {
-          value.push(null)
-        } else {
-          value.push(this.value2[i] - this.value1[i])
-        }
-      }
-      return value
     }
   }
 }

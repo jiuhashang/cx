@@ -50,7 +50,7 @@ export default {
             type: 'category',
             boundaryGap: false,
             axisLine: {
-              show: false
+              show: true
             },
             axisTick: {
               show: false

@@ -9,9 +9,11 @@
 import * as echarts from 'echarts'
 
 export default {
+  name: 'Dcclb',
   data() {
     return {
       myChart: null,
+      contentData1: [],
       time: [],
       value: []
     }
@@ -31,18 +33,12 @@ export default {
         color: ['#80FFA5'],
         tooltip: {
           trigger: 'axis',
-          // formatter: arg => {
-          //   // console.log(arg)
-          //   let str = ''
-          //     str = arg[0].name + '<br/>' + arg[0].seriesName + '：' + arg[0].value
-          //   return str
-          // },
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          }
+          // axisPointer: {
+          //   type: 'cross',
+          //   label: {
+          //     backgroundColor: '#6a7985'
+          //   }
+          // }
         },
         grid: {
           top: '4%',
@@ -53,20 +49,25 @@ export default {
         },
         xAxis: [
           {
-            type: 'category',
+            type: 'time',
             boundaryGap: false,
+            splitNumber: 12,
+            // minInterval: 1,
+            // maxInterval: 3600 * 24 * 1000,
             axisLine: {
-              show: false
+              show: true
             },
             axisTick: {
               show: false
             },
             axisLabel: {
-              fontSize: 10
+              show: true,
+              fontSize: 10,
+              formatter: '{H}'
             },
-            minInterval: 10,
           }
-        ],
+        ]
+        ,
         yAxis: [
           {
             type: 'value',
@@ -79,10 +80,11 @@ export default {
               }
             }
           }
-        ],
+        ]
+        ,
         series: [
           {
-            name: '电量',
+            name: '功率',
             type: 'line',
             stack: 'Total',
             smooth: true,
@@ -118,25 +120,16 @@ export default {
       option && this.myChart.setOption(option)
     },
     async getData() {
-      // const res = await this.$http.get('/cx/cxLdPowerNow/getTodayAllAmount')
-      // this.time = res.data.data.map(item => item.time)
-      // console.log(this.time);
-      // this.time = Object.keys(res.data.data).map(item => parseInt(item))
-      
-      // this.value = Object.values(res.data.data)
+      const res = await this.$http.get('/cx/cxLdPowerNow/getTodayAllAmount')
       // console.log(res.data.data);
-      // this.value = res.data.data.map(item => item.power)
+      this.contentData1 = res.data.data.map(item => [item.time, item.power])
       this.updateChart()
     },
     updateChart() {
       var option = {
-        xAxis: {
-          // data: this.time
-          data: [0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23]
-        },
         series: [
           {
-            data: this.value
+            data: this.contentData1
           }
         ]
       }

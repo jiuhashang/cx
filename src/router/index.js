@@ -9,6 +9,11 @@ const routes = [
     name: 'Home',
     component: () => import(/* webpackChunkName: "login" */ '../views/home.vue'),
     meta: { title: '主页' }
+  },
+  {
+    path: '/abc',
+    name: 'Dcclb',
+    component: () => import(/* webpackChunkName: "login" */ '../components/Dcclb.vue'),
   }
   // {
   //   path: '/about',
