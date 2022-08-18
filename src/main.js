@@ -27,9 +27,9 @@ Vue.filter('money', function(val) {
 Vue.use(VueRouter)
 
 Vue.prototype.$http = axios
-axios.defaults.baseURL = 'http://10.11.32.66:7700'
+// axios.defaults.baseURL = 'http://10.11.32.66:7700'
 // axios.defaults.baseURL = 'http://119.45.162.104/guangchuchong-api'
-// axios.defaults.baseURL = 'http://123.60.52.140/guangchuchong-api'
+axios.defaults.baseURL = 'http://123.60.52.140/guangchuchong-api'
 
 Vue.config.productionTip = false
 

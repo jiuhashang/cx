@@ -1,7 +1,12 @@
 <template>
-<!-- 锂电日放电量 -->
+<!-- 锂电--月充/放电量 -->
   <div class="ddlb">
     <div style="width: 428px; height: 172px;" ref="dcclb_ref"></div>
+    <div class="count">
+      <span>{{ yfdl.toFixed(2)}}</span>
+      <span style="margin: 0 5px;">/</span>
+      <span>{{ ycdl.toFixed(2) }}</span>
+    </div>
   </div>
 </template>
 
@@ -12,6 +17,8 @@ export default {
   data() {
     return {
       myChart: null,
+      yfdl: 0,
+      ycdl: 0,
       time: [],
       amountOut: [], // 放电
       amountIn: [] // 充电
@@ -33,10 +40,11 @@ export default {
         tooltip: {
           trigger: 'axis',
           // axisPointer: {
-          //   type: 'cross',
-          //   label: {
-          //     backgroundColor: '#6a7985'
-          //   }
+            // alwaysShowContent: true
+            // type: 'cross',
+            // label: {
+            //   backgroundColor: '#6a7985'
+            // }
           // }
         },
         grid: {
@@ -126,7 +134,7 @@ export default {
             emphasis: {
               focus: 'series'
             }
-          },
+          }
         ]
       }
       
@@ -137,7 +145,9 @@ export default {
       const res = result.data.data
       this.time = res.map(item => item.day)
       this.amountOut = res.map(item => item.amountOut)
+      this.yfdl = this.amountOut.filter(item => item != null).pop()
       this.amountIn = res.map(item => item.amountIn)
+      this.ycdl = -this.amountIn.filter(item => item != null).pop()
       this.updateChart()
     },
     updateChart() {
@@ -164,9 +174,24 @@ export default {
         this.getData()
       }, 5*60*1000)
     }
+  },
+  computed: {
+    yfdl() {
+    }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.ddlb {
+  position: relative;
+  .count {
+    position: absolute;
+    top: -38px;
+    right: 8px;
+    font-size: 18px;
+    color: #fff;
+    font-family: monoMMM-5-1;
+  }
+}
 </style>

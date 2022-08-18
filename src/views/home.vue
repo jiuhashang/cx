@@ -32,7 +32,7 @@
             <span>{{ sscn | money }}</span>
           </div>
           <div class="l4">
-            <span>{{ sscy | money }}</span>
+            <span>{{ ssxd | money }}</span>
           </div>
         </div>
         <div class="center">
@@ -104,10 +104,12 @@ export default {
       nox: 0,
       tree: 0,
       // 实时
-      // ssyd: 0,
-      ssfd: 0,
-      // sscn: 0,
-      sscy: 0
+      // ssyd: 0, // 实时总用电量
+      ssfd: 0, // 实时光伏发电量
+      ssld: 0,
+      ssyl: 0,
+      // sscn: 0, // 实时储能电量
+      ssxd: 0 // 实时电网下电量
     }
   },
   created() {
@@ -152,10 +154,14 @@ export default {
       const tree  = await this.$http.get('/cx/cxGfTotalTreePlanting/getNearAmount') // 植物
       this.tree = tree.data.data
       // 实时
-      const ssfd  = await this.$http.get('/cx/cxGfTotalElectricIn/getNearAmount') // 光伏发电
+      const ssfd  = await this.$http.get('/cx/cxGfPowerNow/getNearPower') // 实时光伏发电量
       this.ssfd = ssfd.data.data
-      const sscy  = await this.$http.get('/cx/cxCyTotalElectricUse/getNearAmount') // 光伏厂用
-      this.sscy = sscy.data.data
+      const ssxd  = await this.$http.get('/cx/cxCyPowerNow/getNearPower') // 实时电网下电量
+      this.ssxd = ssxd.data.data
+      const ssld  = await this.$http.get('/cx/cxLdPowerNow/getNearPower') // 实时锂电
+      this.ssld = ssld.data.data
+      const ssyl  = await this.$http.get('/cx/cxYlPowerNow/getNearPower') // 实时液流
+      this.ssyl = ssyl.data.data
     },
     dateFormat(time) {
       var date=new Date(time)
@@ -178,10 +184,10 @@ export default {
   },
   computed: {
     ssyd() {
-      return this.sscy + this.ssfd + this.ldlf + this.yllf
+      return this.ssfd + this.ssld + this.ssyl + this.ssxd
     },
     sscn() {
-      return this.ldlf + this.yllf
+      return this.ssld + this.ssyl
     }
   },
   beforeDestroy() {

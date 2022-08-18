@@ -1,7 +1,12 @@
 <template>
-<!-- 锂电日充电量 -->
+<!-- 液流--充/放电功率 -->
   <div class="dcclb">
     <div style="width: 428px; height: 172px;" ref="dcclb_ref"></div>
+    <div class="count">
+      <span>{{ rfd.toFixed(2)}}</span>
+      <span style="margin: 0 5px;">/</span>
+      <span>{{ rcd.toFixed(2) }}</span>
+    </div>
   </div>
 </template>
 
@@ -12,8 +17,9 @@ export default {
   data() {
     return {
       myChart: null,
-      time: [],
-      value: []
+      rfd: 0,
+      rcd: 0,
+      contentData: []
     }
   },
   mounted () {
@@ -31,12 +37,12 @@ export default {
         color: ['#80FFA5'],
         tooltip: {
           trigger: 'axis',
-          axisPointer: {
-            type: 'cross',
-            label: {
-              backgroundColor: '#6a7985'
-            }
-          }
+          // axisPointer: {
+          //   type: 'cross',
+          //   label: {
+          //     backgroundColor: '#6a7985'
+          //   }
+          // }
         },
         grid: {
           top: '4%',
@@ -47,8 +53,9 @@ export default {
         },
         xAxis: [
           {
-            type: 'category',
+            type: 'time',
             boundaryGap: false,
+            splitNumber: 12,
             axisLine: {
               show: true
             },
@@ -56,7 +63,8 @@ export default {
               show: false
             },
             axisLabel: {
-              fontSize: 10
+              fontSize: 10,
+              formatter: '{H}'
             }
           }
         ],
@@ -75,9 +83,9 @@ export default {
         ],
         series: [
           {
-            name: '电量',
+            name: '功率',
             type: 'line',
-            stack: 'Total',
+            // stack: 'Total',
             smooth: true,
             lineStyle: {
               width: 1,
@@ -111,19 +119,25 @@ export default {
       option && this.myChart.setOption(option)
     },
     async getData() {
-      const res = await this.$http.get('/cx/cxYlDateElectricIn/getTodayAllAmount')
-      this.time = res.data.data.map(item => item.hour)
-      this.value = res.data.data.map(item => item.amount)
+      const res = await this.$http.get('/cx/cxYlPowerNow/getTodayAllAmount')
+      let result = res.data.data
+      this.contentData = result.map(item => [item.time, item.power])
+
+      const res1 = await this.$http.get('/cx/cxYlPowerNow/getNearPower2')
+      const power = res1.data.data
+      if(power > 0) {
+        this.rfd = power
+      }else if(power < 0) {
+        this.rcd = -power
+      }
+
       this.updateChart()
     },
     updateChart() {
       var option = {
-        xAxis: {
-          data: this.time
-        },
         series: [
           {
-            data: this.value
+            data: this.contentData
           }
         ]
       }
@@ -142,4 +156,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.dcclb {
+  position: relative;
+  .count {
+    position: absolute;
+    top: -38px;
+    right: 8px;
+    font-size: 18px;
+    color: #fff;
+    font-family: monoMMM-5-1;
+  }
+}
 </style>

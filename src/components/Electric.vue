@@ -29,6 +29,7 @@ export default {
     initChart() {
       this.myChart = echarts.init(this.$refs.ele_ref)
       var option = {
+        color: ['#B4F494', '#AB70C8'],
         tooltip: {
           trigger: 'axis',
           axisPointer: {
