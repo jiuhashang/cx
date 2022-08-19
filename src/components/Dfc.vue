@@ -34,7 +34,7 @@ export default {
     initChart() {
       this.myChart = echarts.init(this.$refs.dcclb_ref)
       var option = {
-        color: ['#80FFA5'],
+        color: ['#566E91'],
         tooltip: {
           trigger: 'axis',
           // axisPointer: {
@@ -88,7 +88,7 @@ export default {
             // stack: 'Total',
             smooth: true,
             lineStyle: {
-              width: 1,
+              width: 2,
               color: 'rgb(119, 153, 193)'
             },
             showSymbol: false,

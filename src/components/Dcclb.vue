@@ -35,7 +35,7 @@ export default {
     initChart() {
       this.myChart = echarts.init(this.$refs.dcclb_ref)
       var option = {
-        color: ['#80FFA5'],
+        color: ['#566E91'],
         tooltip: {
           trigger: 'axis',
           // axisPointer: {
@@ -57,8 +57,6 @@ export default {
             type: 'time',
             boundaryGap: false,
             splitNumber: 12,
-            // minInterval: 1,
-            // maxInterval: 3600 * 24 * 1000,
             axisLine: {
               show: true
             },
@@ -68,7 +66,7 @@ export default {
             axisLabel: {
               fontSize: 10,
               formatter: '{H}'
-            },
+            }
           }
         ]
         ,
@@ -93,7 +91,7 @@ export default {
             // stack: 'Total',
             smooth: true,
             lineStyle: {
-              width: 1,
+              width: 2,
               color: 'rgb(119, 153, 193)'
             },
             showSymbol: false,

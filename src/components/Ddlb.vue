@@ -87,10 +87,10 @@ export default {
             name: '日放电量',
             type: 'line',
             smooth: true,
-            lineStyle: {
-              width: 1,
-              color: 'rgb(180, 244, 148)'
-            },
+            // lineStyle: {
+            //   width: 1,
+            //   color: 'rgb(180, 244, 148)'
+            // },
             showSymbol: false,
             areaStyle: {
               opacity: 0.8,
@@ -113,10 +113,10 @@ export default {
             name: '日充电量',
             type: 'line',
             smooth: true,
-            lineStyle: {
-              width: 1,
-              color: 'rgb(171, 112, 200)'
-            },
+            // lineStyle: {
+            //   width: 1,
+            //   color: 'rgb(171, 112, 200)'
+            // },
             showSymbol: false,
             areaStyle: {
               opacity: 0.8,
@@ -173,10 +173,6 @@ export default {
       this.timer = setInterval(() => {
         this.getData()
       }, 5*60*1000)
-    }
-  },
-  computed: {
-    yfdl() {
     }
   }
 }
