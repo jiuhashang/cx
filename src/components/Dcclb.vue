@@ -47,7 +47,7 @@ export default {
         },
         grid: {
           top: '4%',
-          left: '4%',
+          left: '3%',
           right: '2%',
           bottom: '0%',
           containLabel: true
@@ -91,7 +91,7 @@ export default {
             // stack: 'Total',
             smooth: true,
             lineStyle: {
-              width: 2,
+              width: 1,
               color: 'rgb(119, 153, 193)'
             },
             showSymbol: false,

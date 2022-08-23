@@ -40,7 +40,7 @@ export default {
         },
         grid: {
           top: '4%',
-          left: '4%',
+          left: '2%',
           right: '0%',
           bottom: '0%',
           containLabel: true
@@ -82,10 +82,10 @@ export default {
             name: '光伏',
             type: 'line',
             smooth: true,
-            // lineStyle: {
-            //   width: 2,
-            //   color: 'rgb(115, 164, 241)'
-            // },
+            lineStyle: {
+              width: 1,
+              color: 'rgb(115, 164, 241)'
+            },
             showSymbol: false,
             // label: {
             //   show: false,
@@ -112,10 +112,10 @@ export default {
             name: '电网',
             type: 'line',
             smooth: true,
-            // lineStyle: {
-            //   width: 2,
-            //   color: 'rgb(228, 159, 255)'
-            // },
+            lineStyle: {
+              width: 1,
+              color: 'rgb(228, 159, 255)'
+            },
             showSymbol: false,
             // label: {
             //   show: false,

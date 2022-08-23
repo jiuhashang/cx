@@ -46,7 +46,7 @@ export default {
         },
         grid: {
           top: '4%',
-          left: '4%',
+          left: '3%',
           right: '2%',
           bottom: '0%',
           containLabel: true
@@ -88,7 +88,7 @@ export default {
             // stack: 'Total',
             smooth: true,
             lineStyle: {
-              width: 2,
+              width: 1,
               color: 'rgb(119, 153, 193)'
             },
             showSymbol: false,
@@ -120,7 +120,7 @@ export default {
     },
     async getData() {
       const res = await this.$http.get('/cx/cxYlPowerNow/getTodayAllAmount')
-      let result = res.data.data
+      const result = res.data.data
       this.contentData = result.map(item => [item.time, item.power])
 
       const res1 = await this.$http.get('/cx/cxYlPowerNow/getNearPower2')

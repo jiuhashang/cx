@@ -309,22 +309,22 @@ export default {
           .b1 {
             position: absolute;
             top: 720px;
-            left: 538px;
+            left: 540px;
           }
           .b2 {
             position: absolute;
             top: 720px;
-            left: 720px;
+            left: 726px;
           }
           .b3 {
             position: absolute;
             top: 720px;
-            left: 910px;
+            left: 916px;
           }
           .b4 {
             position: absolute;
             top: 720px;
-            left: 1100px;
+            left: 1102px;
           }
           .b5 {
             width: 90px;
