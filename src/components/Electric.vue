@@ -84,7 +84,7 @@ export default {
             smooth: true,
             lineStyle: {
               width: 1,
-              color: 'rgb(115, 164, 241)'
+              color: 'rgb(151, 255, 248)'
             },
             showSymbol: false,
             // label: {

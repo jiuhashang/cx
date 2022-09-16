@@ -40,7 +40,7 @@ export default {
         tooltip: {
           trigger: 'axis',
           // axisPointer: {
-            // alwaysShowContent: true
+            // alwaysShowContent: true,
             // type: 'cross',
             // label: {
             //   backgroundColor: '#6a7985'
@@ -66,7 +66,7 @@ export default {
             },
             axisLabel: {
               fontSize: 10
-            }
+            } 
           }
         ],
         yAxis: [
@@ -86,12 +86,12 @@ export default {
           {
             name: '日放电量',
             type: 'line',
+            showSymbol: false,
             smooth: true,
             lineStyle: {
               width: 1,
               color: 'rgb(180, 244, 148)'
             },
-            showSymbol: false,
             areaStyle: {
               opacity: 0.8,
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -113,11 +113,11 @@ export default {
             name: '日充电量',
             type: 'line',
             smooth: true,
+            showSymbol: false,
             lineStyle: {
               width: 1,
               color: 'rgb(171, 112, 200)'
             },
-            showSymbol: false,
             areaStyle: {
               opacity: 0.8,
               color: new echarts.graphic.LinearGradient(0, 0, 0, 1, [
@@ -143,6 +143,7 @@ export default {
     async getData() {
       const result = await this.$http.get('/cx/cxLdDateElectricIn/getThisMonthAllDayAmount')
       const res = result.data.data
+      console.log(res);
       this.time = res.map(item => item.day)
       this.amountOut = res.map(item => item.amountOut)
       this.yfdl = this.amountOut.filter(item => item != null).pop()
