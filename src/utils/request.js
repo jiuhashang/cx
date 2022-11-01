@@ -9,7 +9,7 @@ import 'nprogress/nprogress.css'
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   baseURL: 'http://10.11.32.66:7700',
-  baseURL: '/xizi-api',
+  // baseURL: '/xizi-api',
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
     'Req-Origin': 'web'

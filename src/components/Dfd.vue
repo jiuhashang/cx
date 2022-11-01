@@ -3,9 +3,9 @@
   <div class="dfd">
     <div style="width: 428px; height: 172px;" ref="dcclb_ref"></div>
     <div class="count">
-      <span>{{ yfdl.toFixed(2)}}</span>
+      <span>{{ yfdl | money }}</span>
       <span style="margin: 0 5px;">/</span>
-      <span>{{ ycdl.toFixed(2) }}</span>
+      <span>{{ ycdl | money }}</span>
     </div>
   </div>
 </template>

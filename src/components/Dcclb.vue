@@ -3,9 +3,9 @@
   <div class="dcclb">
     <div style="width: 428px; height: 172px;" ref="dcclb_ref"></div>
     <div class="count">
-      <span>{{ rfd.toFixed(2)}}</span>
+      <span>{{ rfd | money }}</span>
       <span style="margin: 0 5px;">/</span>
-      <span>{{ rcd.toFixed(2) }}</span>
+      <span>{{ rcd | money }}</span>
     </div>
   </div>
 </template>
@@ -118,7 +118,6 @@ export default {
           }
         ]
       }
-      
       option && this.myChart.setOption(option)
     },
     async getData() {
