@@ -8,7 +8,8 @@ import 'nprogress/nprogress.css'
 // create an axios instance
 const service = axios.create({
   // baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
-  baseURL: 'http://10.11.32.66:7700',
+  // baseURL: 'http://10.11.32.66:7700',
+  baseURL: 'http://http://123.60.52.140',
   // baseURL: '/xizi-api',
   headers: {
     'Content-Type': 'application/json; charset=utf-8',
@@ -35,7 +36,7 @@ const service = axios.create({
     return data
   }],
   // withCredentials: true, // send cookies when cross-domain requests
-  timeout: 50000 // request timeout
+  timeout: 500000 // request timeout
 })
 service.interceptors.request.use(
   config => {

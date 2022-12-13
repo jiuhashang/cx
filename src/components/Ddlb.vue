@@ -143,7 +143,6 @@ export default {
     async getData() {
       const result = await this.$http.get('/cx/cxLdDateElectricIn/getThisMonthAllDayAmount')
       const res = result.data.data
-      console.log(res);
       this.time = res.map(item => item.day)
       this.amountOut = res.map(item => item.amountOut)
       this.yfdl = this.amountOut.filter(item => item != null).pop()

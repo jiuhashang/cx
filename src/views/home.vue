@@ -29,7 +29,7 @@
             <span>{{ ssfd | money }}</span>
           </div>
           <div class="l3">
-            <span>{{ sscn | money }}</span>
+            <span>{{ sscn < 0 ? sscn : (sscn | money) }}</span>
           </div>
           <div class="l4">
             <span>{{ ssxd | money }}</span>
